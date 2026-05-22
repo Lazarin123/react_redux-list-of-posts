@@ -7,14 +7,14 @@ import './App.scss';
 
 import { PostsList } from './components/PostsList';
 import { PostDetails } from './components/PostDetails';
-import { UserSelector } from './components/UserSelector';
+import { AuthorSelector } from './components/AuthorSelector';
 import { Loader } from './components/Loader';
 import * as postsActions from './features/posts/postSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector(state => state.user);
+  const { author } = useAppSelector(state => state.author);
   const { selectedPost } = useAppSelector(state => state.selectedPost);
   const {
     items: posts,
@@ -23,12 +23,12 @@ export const App: React.FC = () => {
   } = useAppSelector(state => state.posts);
 
   useEffect(() => {
-    if (user) {
-      dispatch(postsActions.init(user));
+    if (author) {
+      dispatch(postsActions.init(author));
     } else {
       dispatch(postsActions.clear());
     }
-  }, [dispatch, user]);
+  }, [dispatch, author]);
 
   return (
     <main className="section">
@@ -37,15 +37,15 @@ export const App: React.FC = () => {
           <div className="tile is-parent">
             <div className="tile is-child box is-success">
               <div className="block">
-                <UserSelector />
+                <AuthorSelector />
               </div>
 
               <div className="block" data-cy="MainContent">
-                {!user && <p data-cy="NoSelectedUser">No user selected</p>}
+                {!author && <p data-cy="NoSelectedUser">No author selected</p>}
 
-                {user && !loaded && <Loader />}
+                {author && !loaded && <Loader />}
 
-                {user && loaded && hasError && (
+                {author && loaded && hasError && (
                   <div
                     className="notification is-danger"
                     data-cy="PostsLoadingError"
@@ -54,13 +54,13 @@ export const App: React.FC = () => {
                   </div>
                 )}
 
-                {user && loaded && !hasError && posts?.length === 0 && (
+                {author && loaded && !hasError && posts?.length === 0 && (
                   <div className="notification is-warning" data-cy="NoPostsYet">
                     No posts yet
                   </div>
                 )}
 
-                {user && loaded && !hasError && posts && posts.length > 0 && (
+                {author && loaded && !hasError && posts && posts.length > 0 && (
                   <PostsList />
                 )}
               </div>

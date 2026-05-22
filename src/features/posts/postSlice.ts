@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import { Post } from '../../types/Post';
-import { getUserPosts } from '../../api/posts';
-import { User } from '../../types/User';
+import { getAuthorPosts } from '../../api/posts';
+import { Author } from '../../types/Author';
 
 type PostsState = {
   items: Post[] | null;
@@ -15,8 +15,8 @@ const initialState: PostsState = {
   hasError: false,
 };
 
-export const init = createAsyncThunk('posts/init', (user: User) => {
-  return getUserPosts(user.id);
+export const init = createAsyncThunk('posts/init', (author: Author) => {
+  return getAuthorPosts(author.id);
 });
 
 const postsSlice = createSlice({

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import * as userActions from '../features/user/userSlice';
-import * as usersActions from '../features/users/usersSlice';
+import * as authorActions from '../features/Author/authorSlice';
+import * as authorsActions from '../features/Authors/authorsSlice';
 
-export const UserSelector: React.FC = () => {
+export const AuthorSelector: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [expanded, setExpanded] = useState(false);
-  const { users, loaded, loading } = useAppSelector(state => state.users);
+  const { authors, loaded, loading } = useAppSelector(state => state.authors);
 
-  const { user: selectedUser } = useAppSelector(state => state.user);
+  const { author: selectedAuthor } = useAppSelector(state => state.author);
 
   useEffect(() => {
     if (!loaded && !loading) {
-      dispatch(usersActions.init());
+      dispatch(authorsActions.init());
     }
   }, [dispatch, loaded, loading]);
 
@@ -51,7 +51,7 @@ export const UserSelector: React.FC = () => {
             setExpanded(current => !current);
           }}
         >
-          <span>{selectedUser?.name || 'Choose a user'}</span>
+          <span>{selectedAuthor?.name || 'Choose a author'}</span>
 
           <span className="icon is-small">
             <i className="fas fa-angle-down" aria-hidden="true" />
@@ -61,18 +61,18 @@ export const UserSelector: React.FC = () => {
 
       <div className="dropdown-menu" id="dropdown-menu" role="menu">
         <div className="dropdown-content">
-          {users.map(user => (
+          {authors.map(author => (
             <a
-              key={user.id}
-              href={`#user-${user.id}`}
+              key={author.id}
+              href={`#user-${author.id}`}
               onClick={() => {
-                dispatch(userActions.setUser(user));
+                dispatch(authorActions.setAuthor(author));
               }}
               className={classNames('dropdown-item', {
-                'is-active': user.id === selectedUser?.id,
+                'is-active': author.id === selectedAuthor?.id,
               })}
             >
-              {user.name}
+              {author.name}
             </a>
           ))}
         </div>
