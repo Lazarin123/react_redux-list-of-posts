@@ -1,27 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Author } from '../../types/Author';
-import { getAuthors } from '../../api/author';
+import { User } from '../../types/User';
+import { getUsers } from '../../api/users';
 
-type AuthorsState = {
-  authors: Author[];
+type UsersState = {
+  users: User[];
   loading: boolean;
   loaded: boolean;
   error: boolean;
 };
 
-const initialState: AuthorsState = {
-  authors: [],
+const initialState: UsersState = {
+  users: [],
   loading: false,
   loaded: false,
   error: false,
 };
 
-export const init = createAsyncThunk('authors/init', () => {
-  return getAuthors();
+export const init = createAsyncThunk('users/init', () => {
+  return getUsers();
 });
 
-const authorsSlice = createSlice({
-  name: 'authors',
+const usersSlice = createSlice({
+  name: 'users',
   initialState,
   reducers: {},
   extraReducers: builder => {
@@ -33,7 +33,7 @@ const authorsSlice = createSlice({
       .addCase(init.fulfilled, (state, action) => {
         state.loading = false; // eslint-disable-line no-param-reassign
         state.loaded = true; // eslint-disable-line no-param-reassign
-        state.authors = action.payload; // eslint-disable-line no-param-reassign
+        state.users = action.payload; // eslint-disable-line no-param-reassign
       })
       .addCase(init.rejected, state => {
         state.loading = false; // eslint-disable-line no-param-reassign
@@ -42,4 +42,4 @@ const authorsSlice = createSlice({
   },
 });
 
-export default authorsSlice.reducer;
+export default usersSlice.reducer;
